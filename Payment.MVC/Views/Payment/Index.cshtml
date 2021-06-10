@@ -1,16 +1,55 @@
 ﻿@{ 
     ViewData["Title"] = "Payment for order";
 }
+@section Scripts
+{
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script>
+        $(document).ready(() =>
+        {
+            $('.select').select2();
+        })
+    </script>
+}
+@using Payment.MVC.Models
+@model OrderDetailViewModel
 <div class="row w-100">
     <div class="card w-100">
         <div class="card-header">
             <h3 class="card-title">Thông tin đơn hàng</h3>
         </div>
         <div class="card-body">
-
+            <form>
+                <input type="hidden" asp-for="orderId"/>
+                <div class="form-group">
+                    <label>Loại hàng hóa</label>
+                    <select asp-for="orderTypeCode" class="select form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label>Số lượng</label>
+                    <input class="form-control" asp-for="amount" />
+                </div>
+                <div class="form-group">
+                    <label>Nội dung thanh toán</label>
+                    <textarea class="form-control" asp-for="orderDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ngân hàng</label>
+                    <select asp-for="bankCode" class="select form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label>Ngôn ngữ</label>
+                    <select asp-for="languageCode" class="select form-control"></select>
+                </div>
+            </form>
         </div>
         <div class="card-footer">
-
+            <div class="row">
+                <div class="col-12 col-md-10"></div>
+                <div class="col-md-2">
+                    <a asp-action="PaymentRedirect" asp-controller="Payment" class="btn btn-primary w-100">Thanh toán</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

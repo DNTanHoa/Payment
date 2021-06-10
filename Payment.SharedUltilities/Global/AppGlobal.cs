@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,73 @@ namespace Payment.SharedUltilities.Global
 {
     public class AppGlobal
     {
-        public string 
+        #region VNPay
+        public static string VNP_ReturnUrl
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("VNPay")
+                    .GetSection("VNP_ReturnUrl").Value;
+            }
+        }
+        public static string VNP_Url
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("VNPay")
+                    .GetSection("VNP_Url").Value;
+            }
+        }
+        public static string VNP_TMNCode
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("VNPay")
+                    .GetSection("VNP_TMNCode").Value;
+            }
+        }
+        public static string VNP_HashSecret
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("VNPay")
+                    .GetSection("VNP_HashSecret").Value;
+            }
+        }
+        public static string VNP_Version
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("VNPay")
+                    .GetSection("VNP_Version").Value;
+            }
+        }
+        public static string VNP_CurrCode
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("VNPay")
+                    .GetSection("VNP_CurrCode").Value;
+            }
+        }
+        #endregion
     }
 }
