@@ -13,5 +13,6 @@ namespace Payment.MVC.Models
         public decimal amount { get; set; }
         public string bankCode { get; set; }
         public string languageCode { get; set; }
+        public DateTime createdDate { get; set; }
     }
 }

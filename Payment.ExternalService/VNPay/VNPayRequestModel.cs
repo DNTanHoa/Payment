@@ -15,7 +15,6 @@ namespace Payment.ExternalService
                 this.vnp_TmnCode = AppGlobal.VNP_TMNCode;
                 this.vnp_ReturnUrl = AppGlobal.VNP_ReturnUrl;
                 this.vnp_CurrCode = AppGlobal.VNP_CurrCode;
-                //this.vnp_SecureHashType = "SHA256";
             }
         }
         public string vnp_Version { get; set; }
@@ -31,8 +30,6 @@ namespace Payment.ExternalService
         public string vnp_IpAddr { get; set; }
         public string vnp_CreateDate { get; set; }
         public string vnp_BankCode { get; set; }
-        public string vnp_SecureHashType { get; set; }
-        //public string vnp_ExpireDate { get; set; }
 
         public VNPayRequestModel SetCommand(string command)
         {

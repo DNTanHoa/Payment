@@ -5,12 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 
 namespace Payment.ExternalService
 {
     public interface IVNPayService
     {
         public string GetPaymentRedirectUrl(VNPayRequestModel request);
+
+        public string GetPaymentRedirectUrl(SortedList<String, String> requestData);
     }
 
     public class VNPayService : IVNPayService
@@ -30,6 +33,25 @@ namespace Payment.ExternalService
             string url = "?" + queryString + "vnp_SecureHash="
                 + SecurityHelper.Sha256(AppGlobal.VNP_HashSecret + rawData);
             return BaseAddress + url;
+        }
+
+        public string GetPaymentRedirectUrl(SortedList<string, string> requestData)
+        {
+            string BaseAddress = AppGlobal.VNP_Url;
+            StringBuilder data = new StringBuilder();
+            foreach (KeyValuePair<string, string> kv in requestData)
+            {
+                if (!String.IsNullOrEmpty(kv.Value))
+                {
+                    data.Append(kv.Key + "=" + HttpUtility.UrlEncode(kv.Value) + "&");
+                }
+            }
+            string queryString = data.ToString();
+            string rawData = requestData.GetRawData();
+            BaseAddress += "?" + queryString;
+            string vnp_SecureHash = SecurityHelper.Sha256(AppGlobal.VNP_HashSecret + rawData);
+            BaseAddress += "vnp_SecureHash=" + vnp_SecureHash;
+            return BaseAddress;
         }
     }
 }

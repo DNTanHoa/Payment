@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Payment.Data.Entities
 {
-    public class Ordertype
+    public class OrderType : BaseEntity
     {
         public string code { get; set; }
         public string name { get; set; }

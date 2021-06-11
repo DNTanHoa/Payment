@@ -7,6 +7,10 @@ namespace Payment.SharedUltilities.Global
 {
     public class AppGlobal
     {
+        #region Default Value
+        public static string DefaultStringCode => DateTime.Now.Ticks.ToString();
+        #endregion
+
         #region VNPay
         public static string VNP_ReturnUrl
         {
