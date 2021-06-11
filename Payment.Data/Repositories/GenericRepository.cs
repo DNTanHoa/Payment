@@ -13,7 +13,11 @@ namespace Payment.Data.Repositories
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "");
+        IEnumerable<T> GetPaging(int pageNumber, int numberOfPage, Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, 
+            string includeProperties = "");
         T GetByID(object id);
+        bool IsExistById(object id, out T existObject);
         void Insert(T entity);
         void Delete(object id);
         void Update(T entityToUpdate);
@@ -82,6 +86,41 @@ namespace Payment.Data.Repositories
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
+
+        public IEnumerable<T> GetPaging(int pageNumber, int numberOfPage, Expression<Func<T, bool>> filter = null, 
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, 
+            string includeProperties = "")
+        {
+            IQueryable<T> query = dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query).Skip(numberOfPage * pageNumber).Take(numberOfPage).ToList();
+            }
+            else
+            {
+                return query.Skip(numberOfPage * pageNumber).Take(numberOfPage).ToList();
+            }
+        }
+
+        public bool IsExistById(object id, out T existObject)
+        {
+            existObject = dbSet.Find(id);
+            if (existObject != null)
+                return true;
+            return false;
         }
     }
 }

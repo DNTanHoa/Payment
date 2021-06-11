@@ -20,6 +20,24 @@ namespace Payment.Data.Configuration
             builder.Property(x => x.lastUpdatedAt)
                 .HasColumnType("datetime")
                 .HasDefaultValue(DateTime.Now);
+
+            builder.HasData(new OrderStatus()
+            {
+                code = "00001",
+                name = "Chưa thanh tóan"
+            });
+
+            builder.HasData(new OrderStatus()
+            {
+                code = "00002",
+                name = "Đã thanh tóan"
+            });
+
+            builder.HasData(new OrderStatus()
+            {
+                code = "00003",
+                name = "Giao dịch lỗi"
+            });
         }
     }
 }

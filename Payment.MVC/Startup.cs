@@ -1,10 +1,14 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Payment.MVC.Extensions;
+using Payment.Data.Context;
+using Payment.Data.Init;
+using Payment.MVC.MappingProfile;
+using Payment.NetCoreExtension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +31,16 @@ namespace Payment.MVC
             services.AddControllersWithViews();
             services.AddHttpClient();
             services.AddConnectedService();
+            services.AddRepostiories();
+            services.AddSingleton<IDbInitializer, DbInitializer>();
+            services.AddDbContext<AppDbContext>();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrderInforMapping());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

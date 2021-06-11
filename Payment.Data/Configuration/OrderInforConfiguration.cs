@@ -17,8 +17,7 @@ namespace Payment.Data.Configuration
             builder.Property(x => x.amount)
                 .HasColumnType("decimal(19,9)");
             builder.Property(x => x.orderId)
-                .HasMaxLength(100)
-                .HasDefaultValue(DateTime.Now.Ticks.ToString());
+                .HasMaxLength(100);
             builder.Property(x => x.transactionNo)
                 .HasMaxLength(100);
             builder.Property(x => x.message)

@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\select2-theme-bootstrap4\docs\.jekyll-cache\Jekyll\Cache\Jekyll--Cache\b7\9606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.2.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.2.3" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.2.3" />
@@ -25,7 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Payment.Data\Payment.Data.csproj" />
     <ProjectReference Include="..\Payment.ExternalService\Payment.ExternalService.csproj" />
+    <ProjectReference Include="..\Payment.NetCoreExtension\Payment.NetCoreExtension.csproj" />
+    <ProjectReference Include="..\Payment.SharedModel\Payment.SharedModel.csproj" />
+    <ProjectReference Include="..\Payment.SharedUltilities\Payment.SharedUltilities.csproj" />
   </ItemGroup>
 
 </Project>

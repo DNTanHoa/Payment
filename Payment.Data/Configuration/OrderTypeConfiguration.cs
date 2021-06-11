@@ -24,6 +24,38 @@ namespace Payment.Data.Configuration
             builder.Property(x => x.lastUpdatedAt)
                 .HasColumnType("datetime")
                 .HasDefaultValue(DateTime.Now);
+
+            builder.HasData(new OrderType() 
+            { 
+                code = "topup",
+                name = "Nạp tiền điện thoại",
+                shortName = "Nạp tiền điện thoại",
+                note = "TEST"
+            });
+
+            builder.HasData(new OrderType()
+            {
+                code = "billpayment",
+                name = "Thanh toán hóa đơn",
+                shortName = "Thanh toán hóa đơn",
+                note = "TEST"
+            });
+
+            builder.HasData(new OrderType()
+            {
+                code = "fashion",
+                name = "Thời trang",
+                shortName = "Thời trang",
+                note = "TEST"
+            });
+
+            builder.HasData(new OrderType()
+            {
+                code = "other",
+                name = "Thanh toán trực tuyến",
+                shortName = "Thanh toán trực tuyến",
+                note = "TEST"
+            });
         }
     }
 }

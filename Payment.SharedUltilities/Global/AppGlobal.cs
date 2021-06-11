@@ -9,6 +9,17 @@ namespace Payment.SharedUltilities.Global
     {
         #region Default Value
         public static string DefaultStringCode => DateTime.Now.Ticks.ToString();
+        public static string DefaultOrderStatusCode
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultOrderStatusCode").Value;
+            }
+        }
         #endregion
 
         #region VNPay
