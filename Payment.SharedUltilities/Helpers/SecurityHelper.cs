@@ -7,6 +7,33 @@ namespace Payment.SharedUltilities.Helpers
 {
     public class SecurityHelper
     {
+        public static bool ValidateSignature(SortedList<string, string> keyValuePairs, string inputHash, string secretKey)
+        {
+            StringBuilder data = new StringBuilder();
+            if (keyValuePairs.ContainsKey("vnp_SecureHashType"))
+            {
+                keyValuePairs.Remove("vnp_SecureHashType");
+            }
+            if (keyValuePairs.ContainsKey("vnp_SecureHash"))
+            {
+                keyValuePairs.Remove("vnp_SecureHash");
+            }
+            foreach (KeyValuePair<string, string> kv in keyValuePairs)
+            {
+                if (!String.IsNullOrEmpty(kv.Value))
+                {
+                    data.Append(kv.Key + "=" + kv.Value + "&");
+                }
+            }
+            if (data.Length > 0)
+            {
+                data.Remove(data.Length - 1, 1);
+            }
+
+            var rawData = data.ToString();
+            string checkSum = Sha256(secretKey + rawData);
+            return checkSum.Equals(inputHash, StringComparison.InvariantCultureIgnoreCase);
+        }
         public static string Md5(string sInput)
         {
             HashAlgorithm algorithmType = default(HashAlgorithm);

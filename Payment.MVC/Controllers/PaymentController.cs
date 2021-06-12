@@ -26,6 +26,7 @@ namespace Payment.MVC.Controllers
         private readonly IGenericRepository<OrderStatus> genericOrderStatusRepository;
         private readonly IGenericRepository<Bank> genericBankRepository;
         private readonly IGenericRepository<Language> genericLanguageRepository;
+        private readonly IGenericRepository<PaymentLog> genericPaymentLogRepository;
         private readonly IMapper mapper;
         private readonly AppDbContext context;
 
@@ -35,6 +36,7 @@ namespace Payment.MVC.Controllers
             IGenericRepository<OrderStatus> genericOrderStatusRepository,
             IGenericRepository<Bank> genericBankRepository,
             IGenericRepository<Language> genericLanguageRepository,
+            IGenericRepository<PaymentLog> genericPaymentLogRepository,
             IMapper mapper,
             AppDbContext context)
         {
@@ -44,6 +46,7 @@ namespace Payment.MVC.Controllers
             this.genericOrderStatusRepository = genericOrderStatusRepository;
             this.genericBankRepository = genericBankRepository;
             this.genericLanguageRepository = genericLanguageRepository;
+            this.genericPaymentLogRepository = genericPaymentLogRepository;
             this.mapper = mapper;
             this.context = context;
         }
@@ -77,6 +80,8 @@ namespace Payment.MVC.Controllers
                     return View();
                 }
                 var orderInfor = mapper.Map<OrderInfor>(order);
+                orderInfor.type = orderType;
+                orderInfor.bank = genericBankRepository.GetByID(order.bankCode);
 
                 var oderStatus = genericOrderStatusRepository.GetByID(AppGlobal.DefaultOrderStatusCode);
 
@@ -103,6 +108,52 @@ namespace Payment.MVC.Controllers
             {
                 return View("Index", order);
             }
+        }
+
+        public IActionResult PaymentReturn(VNPPaymentReturnModel model)
+        {
+            var viewModel = new PaymentReturnViewModel()
+            {
+                isSuccess = false
+            };
+
+            if (model != null)
+            {
+                var responeData = model.ToSortedList(new VNPayCompare());
+                var isValidSignature = SecurityHelper.ValidateSignature(responeData, model.vnp_SecureHash, 
+                    AppGlobal.VNP_HashSecret);
+
+                if(isValidSignature)
+                {
+                    var orderInfor = genericOrderInforRepository.GetByID(model.vnp_TxnRef);
+
+                    if (model.vnp_ResponseCode == "00")
+                    {
+                        viewModel.isSuccess = true;
+                        viewModel.message = AppGlobal.DefaultPaymentSuccessMessage;
+
+                        //Update order infor with log
+                        var paymentSuccessStatus = genericOrderStatusRepository.GetByID(AppGlobal.PaymentSuccessOrderStatusCode);
+                        orderInfor.SetOrderStatus(paymentSuccessStatus);
+                    }
+                    else
+                    {
+                        viewModel.message = "Mã lỗi: " + model.vnp_ResponseCode;
+                        var paymentFailedStatus = genericOrderStatusRepository.GetByID(AppGlobal.PaymentFailOrderStatusCode);
+                        orderInfor.SetOrderStatus(paymentFailedStatus);
+                    }
+
+                    var paymentLog = mapper.Map<PaymentLog>(model);
+                    genericPaymentLogRepository.Insert(paymentLog);
+
+                    context.SaveChanges();
+
+                    return View(viewModel);
+                }
+                viewModel.message = AppGlobal.DefaultInvalidSignatureMessage;
+            }
+
+            return View(viewModel);
         }
     }
 }

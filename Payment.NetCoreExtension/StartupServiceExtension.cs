@@ -21,6 +21,7 @@ namespace Payment.NetCoreExtension
             services.AddScoped<IGenericRepository<OrderStatus>, GenericRepository<OrderStatus>>();
             services.AddScoped<IGenericRepository<OrderInfor>, GenericRepository<OrderInfor>>();
             services.AddScoped<IGenericRepository<Language>, GenericRepository<Language>>();
+            services.AddScoped<IGenericRepository<PaymentLog>, GenericRepository<PaymentLog>>();
         }
     }
 }

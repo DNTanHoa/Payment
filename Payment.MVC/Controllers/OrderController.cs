@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Payment.Data.Context;
 using Payment.Data.Entities;
 using Payment.Data.Repositories;
+using Payment.SharedModel.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +14,13 @@ namespace Payment.MVC.Controllers
     public class OrderController : Controller
     {
         private readonly IGenericRepository<OrderInfor> genericOrderInforRepository;
+        private readonly AppDbContext context;
 
-        public OrderController(IGenericRepository<OrderInfor> genericOrderInforRepository)
+        public OrderController(IGenericRepository<OrderInfor> genericOrderInforRepository,
+            AppDbContext context)
         {
             this.genericOrderInforRepository = genericOrderInforRepository;
+            this.context = context;
         }
 
         public IActionResult Index()
@@ -22,10 +28,21 @@ namespace Payment.MVC.Controllers
             return View();
         }
 
-        public IActionResult GetAllPaging(int pageNumber, int numberPerPage)
+        public IActionResult Detail(string orderId)
         {
-            var data = genericOrderInforRepository.GetPaging(pageNumber, numberPerPage);
-            return Json(data);
+            var model = context.OrderInfor
+                .Include(x => x.status)
+                .Include(x => x.type)
+                .Include(x => x.bank)
+                .FirstOrDefault(x => x.orderId == orderId);
+            return View(model);
+        }
+
+        public IActionResult GetAllPaging(int start, int length)
+        {
+            var data = genericOrderInforRepository.Get(
+                null, null, "type,status");
+            return Json(new CommonResponse().SetData(data));
         }
 
     }

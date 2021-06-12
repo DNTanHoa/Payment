@@ -31,6 +31,7 @@ namespace Payment.Data.Context
         public virtual DbSet<OrderInfor> OrderInfor { get; set; }
         public virtual DbSet<OrderStatus> OrderStatus { get; set; }
         public virtual DbSet<OrderType> OrderType { get; set; }
+        public virtual DbSet<PaymentLog> PaymentLog { get; set; }
         public virtual DbSet<User> User { get; set; }
         #endregion
 
@@ -41,6 +42,7 @@ namespace Payment.Data.Context
             modelBuilder.ApplyConfiguration(new OrderInforConfiguration());
             modelBuilder.ApplyConfiguration(new OrderStatusConfiguration());
             modelBuilder.ApplyConfiguration(new OrderTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentLogConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
 

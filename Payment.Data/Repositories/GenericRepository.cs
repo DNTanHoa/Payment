@@ -17,6 +17,7 @@ namespace Payment.Data.Repositories
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, 
             string includeProperties = "");
         T GetByID(object id);
+        T GetByID(object id, string includeProperties = "");
         bool IsExistById(object id, out T existObject);
         void Insert(T entity);
         void Delete(object id);
@@ -121,6 +122,11 @@ namespace Payment.Data.Repositories
             if (existObject != null)
                 return true;
             return false;
+        }
+
+        public T GetByID(object id, string includeProperties = "")
+        {
+            return dbSet.Find(id);
         }
     }
 }

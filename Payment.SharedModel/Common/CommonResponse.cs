@@ -8,7 +8,8 @@ namespace Payment.SharedModel.Common
     {
         public CommonResult result { get; set; }
         public Object data { get; set; }
-
+        public int recordsTotal { get; set; }
+        public int recordsFiltered { get; set; }
         public CommonResponse SetResult(CommonResult result)
         {
             this.result = result;

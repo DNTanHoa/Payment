@@ -9,6 +9,7 @@ namespace Payment.Data.Entities
         public string orderId { get; set; }
         public string orderDescription { get; set; }
         public decimal amount { get; set; }
+        public OrderType type { get; set; }
         public Bank bank { get; set; }
         public OrderStatus status { get; set; }
 

@@ -24,19 +24,25 @@ namespace Payment.Data.Configuration
             builder.HasData(new OrderStatus()
             {
                 code = "00001",
-                name = "Chưa thanh tóan"
+                name = "Chưa thanh tóan",
+                backgroundColor = "transparent",
+                forceColor = "black"
             });
 
             builder.HasData(new OrderStatus()
             {
                 code = "00002",
-                name = "Đã thanh tóan"
+                name = "Đã thanh tóan",
+                backgroundColor = "transparent",
+                forceColor = "green"
             });
 
             builder.HasData(new OrderStatus()
             {
                 code = "00003",
-                name = "Giao dịch lỗi"
+                name = "Giao dịch lỗi",
+                backgroundColor = "transparent",
+                forceColor = "red"
             });
         }
     }

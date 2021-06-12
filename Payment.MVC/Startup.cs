@@ -38,6 +38,7 @@ namespace Payment.MVC
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new OrderInforMapping());
+                mc.AddProfile(new PaymentLogMapping());
             });
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);

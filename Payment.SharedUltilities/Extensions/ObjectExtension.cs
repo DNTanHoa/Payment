@@ -25,7 +25,6 @@ namespace Payment.SharedUltilities.Extensions
             }
             return null;
         }
-
         public static string ToQueryStringData(this object obj)
         {
             if (obj != null)
@@ -67,6 +66,18 @@ namespace Payment.SharedUltilities.Extensions
                 return query.ToString();
             }
             return string.Empty;
+        }
+        public static SortedList<string, string> ToSortedList(this object obj, IComparer<string> comparer)
+        {
+            SortedList<string, string> result = new SortedList<string, string>(comparer);
+            var dictionary = obj.ToDictionaryStringString();
+
+            foreach(var key in dictionary.Keys)
+            {
+                result.Add(key, dictionary[key]);
+            }
+
+            return result;
         }
     }
 }

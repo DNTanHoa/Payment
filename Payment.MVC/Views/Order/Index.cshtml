@@ -28,7 +28,36 @@
                     emptyTable: "Không có dữ liệu",
                     lengthMenu: "Số lượng của trang _MENU_",
                     search: "Tìm kiếm:",
-                }
+                },
+                ajax: {
+                    url: "@Url.Action("GetAllPaging", "Order")",
+                    dataSrc: 'data'
+                },
+                columns: [
+                    { data: "orderId" },
+                    { data: "type.name", defaultContent: '' },
+                    { data: "orderDescription"},
+                    { data: "amount"},
+                    { data: "createdAt" },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            if (data.status != null) {
+                                let temp = "<span style='color:" + data.status.forceColor + "'>" + data.status.name + "</span>";
+                                console.log(temp);
+                                return temp;
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        data: null,
+                        render: (data, type, row) => {
+                            let url = "@Url.Action("Detail","Order")?orderId=" + data.orderId;
+                            return "<a class='btn btn-success text-white' href="+url+"><i class='fas fa-external-link-alt'></i></a>"
+                        }
+                    }
+                ]
             });
         });
     </script>
@@ -61,47 +90,6 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>00001</td>
-                        <td>Chi trả bảo hiểm</td>
-                        <td>Thanh toán bảo hiểm HDI</td>
-                        <td>66,000 VND</td>
-                        <td>2021/06/11</td>
-                        <td class="text-success">Giao dịch thành công</td>
-                        <td>
-                            <a class="btn btn-success text-white" title="Chi tiết thanh toán">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>00001</td>
-                        <td>Chi trả bảo hiểm</td>
-                        <td>Thanh toán bảo hiểm HDI</td>
-                        <td>66,000 VND</td>
-                        <td>2011/06/11</td>
-                        <td>Chưa thanh toán</td>
-                        <td>
-                            <a class="btn btn-success text-white" title="Chi tiết thanh toán">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>00001</td>
-                        <td>Chi trả bảo hiểm</td>
-                        <td>Thanh toán bảo hiểm HDI</td>
-                        <td>66,000 VND</td>
-                        <td>2021/06/11</td>
-                        <td class="text-danger">Giao dịch thất bại</td>
-                        <td>
-                            <a class="btn btn-success text-white" title="Chi tiết thanh toán">
-                                <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
             </table>
         </div>
     </div>

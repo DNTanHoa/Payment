@@ -20,6 +20,50 @@ namespace Payment.SharedUltilities.Global
                     .GetSection("DefaultOrderStatusCode").Value;
             }
         }
+        public static string DefaultPaymentSuccessMessage
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultPaymentSuccessMessage").Value;
+            }
+        }
+        public static string DefaultInvalidSignatureMessage
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("DefaultInvalidSignatureMessage").Value;
+            }
+        }
+        public static string PaymentSuccessOrderStatusCode
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("PaymentSuccessOrderStatusCode").Value;
+            }
+        }
+        public static string PaymentFailOrderStatusCode
+        {
+            get
+            {
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                return builder.Build().GetSection("Defaults")
+                    .GetSection("PaymentFailOrderStatusCode").Value;
+            }
+        }
         #endregion
 
         #region VNPay

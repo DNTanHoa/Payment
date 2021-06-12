@@ -1,0 +1,17 @@
+﻿@using Payment.MVC.Models
+@model PaymentReturnViewModel
+
+@if (Model.isSuccess)
+{
+    <div class="alert alert-success">
+        <strong>Thanh toán thành công!</strong>
+        <p>@Model.message</p>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <strong>Thanh toán lỗi!</strong>
+        <p>@Model.message</p>
+    </div>
+}
