@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Payment.API.MappingProfile;
+using Payment.Data.Context;
+using Payment.Data.Init;
+using Payment.NetCoreExtension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +33,19 @@ namespace Payment.API
         {
 
             services.AddControllers();
+            services.AddHttpClient();
+            services.AddConnectedService();
+            services.AddRepostiories();
+            services.AddSingleton<IDbInitializer, DbInitializer>();
+            services.AddDbContext<AppDbContext>();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrderRequestMapping());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Payment.API", Version = "v1" });
